@@ -1,2 +1,2 @@
 # CalineCycles
-Calcules de Mensurations et accompagnement jeunes filles 
+Calculs de Menstruations et accompagnement pour jeunes filles 
