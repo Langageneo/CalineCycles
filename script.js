@@ -1,11 +1,11 @@
 /* CalineCycle Pro - script.js
-   stockage : localStorage key = "calineMemory"
+   stockage : localStorage key = "calineMemory_v1"
 */
 const STORAGE_KEY = "calineMemory_v1";
 let DB = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"profiles":{} }');
 let currentUser = null;
 
-// --- contenu Fun / conseils (tu peux enrichir ce tableau) ---
+// --- contenu Fun / conseils ---
 const FUN = {
   jokes: [
     "Pourquoi les ovules ne se perdent jamais ? Parce qu'ils ont un GPS en elles ! 🌸",
@@ -35,10 +35,7 @@ function showSection(id){
   $(id).classList.remove('hidden');
   window.scrollTo(0,0);
 }
-function showWelcome(){
-  showSection('welcome');
-  displayAutoFun();
-}
+function showWelcome(){ showSection('welcome'); displayAutoFun(); }
 function showCreate(){ showSection('create') }
 function showLogin(){ populateUsers(); showSection('login') }
 function showDash(){ renderRecent(); showSection('dash') }
@@ -66,7 +63,7 @@ function createProfile(){
     $('in-name').value=''; $('in-surname').value=''; $('in-dob').value=''; $('in-class').value=''; $('in-code').value='';
     greetUser();
     showDash();
-    displayAutoFun(); // show fun at create
+    displayAutoFun();
   });
 }
 
@@ -114,11 +111,8 @@ function displayAutoFun(){
   box.innerHTML = `<strong>Blague :</strong> ${j}<br><strong>Conseil :</strong> ${a}`;
 }
 
-// show fun when user logs in (auto)
-function showAutoFunOnLogin(){
-  // called after login
-  generateFun();
-}
+// show fun when user logs in
+function showAutoFunOnLogin(){ displayAutoFun(); generateFun(); }
 
 // generate fun content
 function generateFun(){
@@ -141,6 +135,7 @@ function startCycle(){
   alert(`Cycle commencé le ${today} 🌟`);
   greetUser(); renderRecent();
 }
+
 function endCycle(){
   if(!currentUser){ alert("Connecte-toi d'abord."); return; }
   const today = new Date().toISOString().split('T')[0];
@@ -164,6 +159,7 @@ document.addEventListener('click', (e)=>{
     e.target.classList.add('active');
   }
 });
+
 function saveSymptom(){
   if(!currentUser){ alert("Connecte-toi."); return; }
   const sym = $('sym-input').value.trim();
@@ -190,6 +186,7 @@ function saveJournal(){
   alert("Entrée sauvegardée ✨");
   renderJournal();
 }
+
 function renderJournal(){
   if(!currentUser) return;
   const list = $('journal-list'); list.innerHTML='';
@@ -244,12 +241,7 @@ function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s=>({ '&':'&amp
 
 // ---------- startup / splash ----------
 function init(){
-  // hide splash after animation then show welcome
   setTimeout(()=>{ $('splash').classList.add('hidden'); showWelcome(); }, 900);
-  // if any user exists show auto fun
   displayAutoFun();
 }
 window.addEventListener('load', init);
-
-// helper: showAutoFunOnLogin wrapper to be called after login flow
-function showAutoFunOnLogin(){ displayAutoFun(); generateFun(); }
