@@ -1,57 +1,34 @@
-:root{
-  --bg1:#fffaf8; /* ivoire */
-  --accent:#d19ad9; /* lavande rose */
-  --accent-2:#ff69b4; /* rose vif */
-  --soft:#ffeef6;
-  --gold:#e6c07a;
-  --muted:#7f7f7f;
-  --card-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  --radius:14px;
+/* 🌍 Version responsive universelle */
+@media screen and (max-width: 1024px) {
+  .logo h1 {
+    font-size: 2.2em;
+  }
+  .logo .slogan {
+    font-size: 1em;
+  }
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg,var(--bg1),#fff);
-  color:#222;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+
+@media screen and (max-width: 768px) {
+  .logo h1 {
+    font-size: 1.8em;
+  }
+  .logo .slogan {
+    font-size: 0.95em;
+  }
+  body {
+    background: radial-gradient(circle at top right, #fff0f8, #ffe6f0, #fff);
+  }
 }
-.app{max-width:480px;margin:20px auto;padding:12px}
-.center{display:flex;align-items:center;justify-content:center;min-height:30vh}
-.logo-plate{background:linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,245,250,0.6)); padding:22px;border-radius:20px;box-shadow:var(--card-shadow);text-align:center;animation:drop 700ms ease}
-.logo-rose{font-size:48px; animation:pulse 1400ms infinite}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-@keyframes drop{0%{transform:translateY(-8px);opacity:0}100%{transform:translateY(0);opacity:1}}
 
-.card{background:white;border-radius:var(--radius);padding:16px;margin:12px 0;box-shadow:var(--card-shadow);transition:transform .25s;overflow:hidden}
-.hidden{display:none}
-h1{margin:6px 0;color:var(--accent-2);font-size:24px}
-h2{margin:6px 0;color:var(--accent);font-size:18px}
-.tag{color:var(--muted);font-size:14px;margin-top:6px}
-
-.btn{background:transparent;border:2px solid var(--accent);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600;transition:all .18s;display:inline-block}
-.btn:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(209,154,217,0.15)}
-.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border-color:transparent}
-.btn.small{padding:6px 8px;font-size:13px;border-radius:10px}
-
-.form input, textarea, select{width:100%;padding:10px;border-radius:10px;border:1px solid #f0dff0;margin:8px 0;background:#fff}
-.row{display:flex;gap:8px;justify-content:space-between;margin-top:10px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
-.tile{padding:16px;border-radius:12px;background:linear-gradient(180deg,#fff,#fff);border:1px solid #f4e7f6;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,0.04)}
-.recent{margin-top:12px;color:var(--muted);font-size:14px}
-
-.funbox{background:linear-gradient(90deg,#fff,#fff);border-radius:12px;padding:10px;margin:8px 0;box-shadow:inset 0 2px 6px rgba(0,0,0,0.02)}
-.fun-display{font-size:16px;padding:10px;border-radius:10px;background:linear-gradient(90deg,#fffefc,#fff7fb);}
-
-.mood-row{display:flex;gap:8px;justify-content:center}
-.mood{font-size:20px;padding:8px;border-radius:10px;border:2px solid #ffd9f0;background:linear-gradient(90deg,#fff,#fff)}
-
-.list{margin-top:10px}
-.list .item{padding:10px;border-radius:10px;border:1px dashed #f3e6f3;margin:6px 0;background:#fffafc}
-.muted{font-size:13px;color:var(--muted)}
-
-footer.credit{text-align:center;margin:18px 0;color:var(--muted);font-size:13px}
-
-/* responsive */
-@media (max-width:480px){.app{margin:8px}}
+@media screen and (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.5em;
+    text-shadow: 0 0 5px #ff99cc, 0 0 10px #ff66a3;
+  }
+  .logo .slogan {
+    font-size: 0.85em;
+  }
+  .symbol {
+    font-size: 1.2rem;
+  }
+}
