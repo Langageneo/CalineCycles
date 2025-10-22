@@ -1,34 +1,59 @@
-/* 🌍 Version responsive universelle */
-@media screen and (max-width: 1024px) {
-  .logo h1 {
-    font-size: 2.2em;
-  }
-  .logo .slogan {
-    font-size: 1em;
-  }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffe6f2, #fff0fa, #e8f8ff);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
 }
 
-@media screen and (max-width: 768px) {
-  .logo h1 {
-    font-size: 1.8em;
-  }
-  .logo .slogan {
-    font-size: 0.95em;
-  }
-  body {
-    background: radial-gradient(circle at top right, #fff0f8, #ffe6f0, #fff);
-  }
+.logo-container {
+  position: relative;
+  margin-top: 2rem;
+  perspective: 800px; /* effet 3D */
 }
 
-@media screen and (max-width: 480px) {
-  .logo h1 {
-    font-size: 1.5em;
-    text-shadow: 0 0 5px #ff99cc, 0 0 10px #ff66a3;
-  }
-  .logo .slogan {
-    font-size: 0.85em;
-  }
-  .symbol {
-    font-size: 1.2rem;
-  }
+.logo {
+  font-size: 4rem;
+  color: #ff69b4;
+  text-shadow: 0 0 20px #ffb6c1, 0 0 40px #ff69b4, 0 0 60px #ff69b4;
+  animation: float3D 4s infinite alternate ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(255,182,193,0.5), rgba(255,105,180,0));
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: 1;
+  animation: haloPulse 3s infinite alternate;
+}
+
+@keyframes float3D {
+  0% { transform: rotateX(2deg) rotateY(-2deg) scale(1); }
+  50% { transform: rotateX(-2deg) rotateY(2deg) scale(1.05); }
+  100% { transform: rotateX(2deg) rotateY(-2deg) scale(1); }
+}
+
+@keyframes haloPulse {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+}
+
+.slogan {
+  font-size: 1.5rem;
+  color: #ff69b4;
+  text-shadow: 0 0 10px #ffb6c1, 0 0 20px #ff69b4;
+  margin-bottom: 2rem;
+  opacity: 0.8;
 }
