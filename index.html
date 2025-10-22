@@ -1,141 +1,25 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CalineCycle Pro 🌸</title>
-  <link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalineCycles 💖🌸</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Chart.js CDN (sera mis en cache par service worker) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <main class="app">
-    <!-- Splash / animation d'ouverture -->
-    <section id="splash" class="center">
-      <div class="logo-plate">
-        <div class="logo-rose">🌸</div>
-        <h1>CalineCycle Pro</h1>
-        <p class="tag">Compagnon doux — toi & ton souffle</p>
-      </div>
-    </section>
+  <!-- Logo principal -->
+  <div class="logo-container">
+    <div class="halo"></div>
+    <div class="logo">
+      💖 CalineCycles 🌸
+    </div>
+  </div>
 
-    <!-- Welcome -->
-    <section id="welcome" class="card hidden">
-      <h2>Bienvenue 🌸</h2>
-      <div id="auto-fun" class="funbox"></div>
-      <div class="actions">
-        <button class="btn primary" onclick="showCreate()">Créer un profil</button>
-        <button class="btn" onclick="showLogin()">Se connecter</button>
-      </div>
-    </section>
-
-    <!-- Create profile -->
-    <section id="create" class="card hidden">
-      <h2>Créer ton profil</h2>
-      <div class="form">
-        <input id="in-name" placeholder="Nom" />
-        <input id="in-surname" placeholder="Prénom" />
-        <input id="in-dob" type="date" />
-        <input id="in-class" placeholder="Classe (ex : 6ème)" />
-        <input id="in-code" type="password" placeholder="Code secret (4+ caractères)" />
-        <div class="row">
-          <button class="btn primary" onclick="createProfile()">Créer</button>
-          <button class="btn" onclick="showWelcome()">Annuler</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Login -->
-    <section id="login" class="card hidden">
-      <h2>Se connecter</h2>
-      <select id="select-user"></select>
-      <input id="login-code" type="password" placeholder="Entrer code secret" />
-      <div class="row">
-        <button class="btn primary" onclick="login()">Connexion</button>
-        <button class="btn" onclick="showWelcome()">Retour</button>
-      </div>
-    </section>
-
-    <!-- Dashboard -->
-    <section id="dash" class="card hidden">
-      <header class="dash-top">
-        <div>
-          <h2 id="greeting">Bonjour</h2>
-          <div id="small-info" class="muted"></div>
-        </div>
-        <button class="btn small" onclick="logout()">⎋ Déconnexion</button>
-      </header>
-
-      <div class="grid">
-        <button class="tile" onclick="startCycle()">Commencer cycle</button>
-        <button class="tile" onclick="endCycle()">Terminer cycle</button>
-        <button class="tile" onclick="showSymptom()">Ajouter symptôme / humeur</button>
-        <button class="tile" onclick="showJournal()">Calepin (Journal)</button>
-        <button class="tile" onclick="showFun()">Blague & Conseil</button>
-        <button class="tile" onclick="showGraph()">Voir graphiques</button>
-      </div>
-
-      <section id="recent" class="recent"></section>
-    </section>
-
-    <!-- Symptom -->
-    <section id="symptom" class="card hidden">
-      <h2>Symptômes & Humeur</h2>
-      <div class="form">
-        <input id="sym-input" placeholder="Symptôme (ex : crampes, fatigue...)" />
-        <div class="mood-row">
-          <button class="mood" data-mood="😊">😊</button>
-          <button class="mood" data-mood="😔">😔</button>
-          <button class="mood" data-mood="😡">😡</button>
-          <button class="mood" data-mood="😴">😴</button>
-        </div>
-        <textarea id="sym-note" placeholder="Notes (optionnel)"></textarea>
-        <div class="row">
-          <button class="btn primary" onclick="saveSymptom()">Ajouter</button>
-          <button class="btn" onclick="showDash()">Annuler</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Journal -->
-    <section id="journal" class="card hidden">
-      <h2>Calepin numérique ✨</h2>
-      <textarea id="journal-text" placeholder="Écris ici ton ressenti, tes pensées..." rows="8"></textarea>
-      <div class="row">
-        <button class="btn primary" onclick="saveJournal()">Sauvegarder</button>
-        <button class="btn" onclick="showDash()">Retour</button>
-      </div>
-      <div id="journal-list" class="list"></div>
-    </section>
-
-    <!-- Fun -->
-    <section id="fun" class="card hidden">
-      <h2>Blague & Conseil 🌸</h2>
-      <div id="fun-display" class="fun-display"></div>
-      <div class="row">
-        <button class="btn" onclick="showDash()">Retour</button>
-        <button class="btn" onclick="regenerateFun()">Encore</button>
-      </div>
-    </section>
-
-    <!-- Graph -->
-    <section id="graph" class="card hidden">
-      <h2>Graphiques</h2>
-      <canvas id="cycleChart" width="400" height="200"></canvas>
-      <div class="row">
-        <button class="btn" onclick="showDash()">Retour</button>
-      </div>
-    </section>
-  </main>
-
-  <footer class="credit">CalineCycle Pro — Langage Néo</footer>
+  <!-- Petite réplique en bas -->
+  <div class="slogan">
+    🌸 Le doux souffle des cycles 💖
+  </div>
 
   <script src="script.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js').catch(()=>console.log("SW failed"));
-    }
-  </script>
 </body>
-        </html>
+</html>
