@@ -1,5 +1,4 @@
-// 🌸 Animation douce de fleurs et cœurs flottants 💖
-const fond = document.querySelector('.fond');
+const fond = document.body;
 
 function createSymbol() {
   const symboles = ['🌸', '💖', '🌺', '⚜️', '✨', '💫', '🌿', '💎', '🌹'];
@@ -10,9 +9,7 @@ function createSymbol() {
   span.style.animationDuration = 4 + Math.random() * 5 + 's';
   fond.appendChild(span);
 
-  setTimeout(() => {
-    span.remove();
-  }, 8000);
+  setTimeout(() => span.remove(), 8000);
 }
 
 setInterval(createSymbol, 500);
