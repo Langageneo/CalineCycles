@@ -1,28 +1,195 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CalineCycles 💖🌸</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalineCycles 💖🌸</title>
+
+<!-- CSS intégré -->
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #ffe6f0, #fff0ff);
+    overflow-x: hidden;
+}
+
+.logo {
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 2rem;
+    color: #ff69b4;
+    text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493, 0 0 40px #ff69b4;
+    animation: rotateLogo 5s infinite linear;
+}
+
+@keyframes rotateLogo {
+    0% { transform: rotateY(0deg); }
+    50% { transform: rotateY(20deg); }
+    100% { transform: rotateY(0deg); }
+}
+
+.background-emoji {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.emoji {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.journal, .controls, .graph, .music-player {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 2rem auto;
+    background: rgba(255, 240, 250, 0.7);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid #ff69b4;
+    font-size: 1rem;
+}
+
+button {
+    background: linear-gradient(to right, #ff69b4, #ff1493);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+button:hover { transform: scale(1.05); }
+</style>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-  <!-- Logo principal animé avec halo -->
-  <div class="logo-container">
-    <div class="halo"></div>
-    <div class="logo">
-      💖 CalineCycles 🌸
-    </div>
-  </div>
+<div class="background-emoji" id="emojiContainer"></div>
 
-  <!-- Petite réplique en bas -->
-  <div class="slogan">
-    🌸 Le doux souffle des cycles 💖
-  </div>
+<div class="logo">💖 CalineCycles 🌸</div>
 
-  <!-- Symboles flottants -->
-  <script src="script.js"></script>
+<!-- Journal intime -->
+<div class="journal">
+    <h3>Journal intime</h3>
+    <textarea id="journalInput" placeholder="Écris ici ton journal..."></textarea>
+    <button onclick="saveJournal()">Ajouter entrée</button>
+    <ul id="journalList"></ul>
+</div>
+
+<!-- Contrôles des cycles -->
+<div class="controls">
+    <h3>Cycles</h3>
+    <button onclick="startCycle()">DÉMARRER Cycle</button>
+    <button onclick="endCycle()">TERMINER Cycle</button>
+</div>
+
+<!-- Graphique des cycles -->
+<div class="graph">
+    <canvas id="cycleChart" width="400" height="200"></canvas>
+</div>
+
+<!-- Musique -->
+<div class="music-player">
+    <h3>Musique</h3>
+    <audio id="music" controls loop>
+        <source src="heidi.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<!-- Scripts -->
+<script>
+// --- Émojis flottants ---
+const emojis = ['🌸','💖','💫','💞','⚜️','💐','🌿','🍀'];
+const container = document.getElementById('emojiContainer');
+
+for(let i=0;i<50;i++){
+    const span = document.createElement('span');
+    span.className = 'emoji';
+    span.style.left = Math.random()*100 + 'vw';
+    span.style.fontSize = (Math.random()*2+1)+'rem';
+    span.style.animationDuration = (Math.random()*5+5)+'s';
+    span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    container.appendChild(span);
+}
+
+// --- Graphique des cycles ---
+const ctx = document.getElementById('cycleChart').getContext('2d');
+let cycleChart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [{ label: 'Cycle Évolutif', data: [], borderColor: 'rgba(255, 105, 180,1)', backgroundColor: 'rgba(255,105,180,0.2)', fill:true }] },
+    options: { responsive:true, animation:{duration:500}, scales:{y:{beginAtZero:true}} }
+});
+
+// --- Journal intime ---
+async function loadJournal(){
+    const res = await fetch('/api/journals');
+    const data = await res.json();
+    const list = document.getElementById('journalList');
+    list.innerHTML = '';
+    data.forEach(entry => {
+        const li = document.createElement('li');
+        li.innerText = `[${entry.date}] ${entry.content}`;
+        list.appendChild(li);
+    });
+}
+async function saveJournal(){
+    const content = document.getElementById('journalInput').value;
+    if(!content) return;
+    await fetch('/new_entry', {method:'POST', body: new URLSearchParams({content})});
+    document.getElementById('journalInput').value = '';
+    loadJournal();
+}
+
+// --- Cycles ---
+let currentCycleId = null;
+async function startCycle(){
+    const res = await fetch('/start_cycle', {method:'POST'});
+    const data = await res.json();
+    currentCycleId = data.cycle_id;
+    updateCycles();
+}
+async function endCycle(){
+    if(!currentCycleId) return;
+    await fetch(`/end_cycle/${currentCycleId}`, {method:'POST'});
+    currentCycleId = null;
+    updateCycles();
+}
+async function updateCycles(){
+    const res = await fetch('/api/cycles');
+    const data = await res.json();
+    cycleChart.data.labels = data.map(c=>c.start);
+    cycleChart.data.datasets[0].data = data.map(c=>c.status==="TERMINÉ"?1:0);
+    cycleChart.update();
+}
+
+// --- Initialisation ---
+loadJournal();
+updateCycles();
+setInterval(updateCycles, 5000);
+</script>
 
 </body>
 </html>
